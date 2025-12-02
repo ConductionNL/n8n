@@ -1,0 +1,50 @@
+# n8n Helm values (Bitnami chart) — reference copy
+# Note: Argo CD uses inline values in application.yaml; keep in sync manually.
+service:
+  type: ClusterIP
+  ports:
+    http: 5678
+
+ingress:
+  enabled: false
+  # hostname: <YOUR_FQDN>
+  # tls: true
+
+persistence:
+  enabled: true
+  size: 10Gi
+  storageClass: default
+
+extraEnvVars:
+  - name: DB_TYPE
+    value: postgresdb
+  - name: DB_POSTGRESDB_HOST
+    valueFrom:
+      secretKeyRef:
+        name: n8n-db
+        key: host
+  - name: DB_POSTGRESDB_PORT
+    valueFrom:
+      secretKeyRef:
+        name: n8n-db
+        key: port
+  - name: DB_POSTGRESDB_DATABASE
+    valueFrom:
+      secretKeyRef:
+        name: n8n-db
+        key: dbname
+  - name: DB_POSTGRESDB_USER
+    valueFrom:
+      secretKeyRef:
+        name: n8n-db
+        key: username
+  - name: DB_POSTGRESDB_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: n8n-db
+        key: password
+  - name: N8N_ENCRYPTION_KEY
+    valueFrom:
+      secretKeyRef:
+        name: n8n-encryption
+        key: N8N_ENCRYPTION_KEY
