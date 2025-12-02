@@ -32,6 +32,10 @@ spec:
               secretName: n8n-tls
         db:
           type: postgresdb
+          postgresdb:
+            ssl:
+              enabled: true
+              rejectUnauthorized: false
         main:
           persistence:
             enabled: true
@@ -41,9 +45,15 @@ spec:
             N8N_HOST: n8n.commonground.nu
             N8N_PROTOCOL: https
             WEBHOOK_URL: https://n8n.commonground.nu/
-          extraSecretNamesForEnvFrom:
-            - n8n-env
+            DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED: "false"
+            NODE_TLS_REJECT_UNAUTHORIZED: "0"
         existingEncryptionKeySecret: n8n-encryption
+        externalPostgresql:
+          host: n8n-postgres.n8n-db.svc
+          port: 5432
+          database: n8n
+          username: bjhu
+          existingSecret: n8n-db-compat
   destination:
     server: https://kubernetes.default.svc
     namespace: n8n
