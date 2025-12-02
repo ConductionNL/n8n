@@ -1,50 +1,38 @@
-# n8n Helm values (Bitnami chart) — reference copy
+# n8n Helm values (Community chart) — reference copy
 # Note: Argo CD uses inline values in application.yaml; keep in sync manually.
+
 service:
   type: ClusterIP
-  ports:
-    http: 5678
+  port: 5678
 
 ingress:
-  enabled: false
-  # hostname: <YOUR_FQDN>
-  # tls: true
-
-persistence:
   enabled: true
-  size: 10Gi
-  storageClass: default
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: n8n.commonground.nu
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - n8n.commonground.nu
+      secretName: n8n-tls
 
-extraEnvVars:
-  - name: DB_TYPE
-    value: postgresdb
-  - name: DB_POSTGRESDB_HOST
-    valueFrom:
-      secretKeyRef:
-        name: n8n-db
-        key: host
-  - name: DB_POSTGRESDB_PORT
-    valueFrom:
-      secretKeyRef:
-        name: n8n-db
-        key: port
-  - name: DB_POSTGRESDB_DATABASE
-    valueFrom:
-      secretKeyRef:
-        name: n8n-db
-        key: dbname
-  - name: DB_POSTGRESDB_USER
-    valueFrom:
-      secretKeyRef:
-        name: n8n-db
-        key: username
-  - name: DB_POSTGRESDB_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: n8n-db
-        key: password
-  - name: N8N_ENCRYPTION_KEY
-    valueFrom:
-      secretKeyRef:
-        name: n8n-encryption
-        key: N8N_ENCRYPTION_KEY
+db:
+  type: postgresdb
+
+main:
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: default
+  extraEnvVars:
+    N8N_HOST: n8n.commonground.nu
+    N8N_PROTOCOL: https
+    WEBHOOK_URL: https://n8n.commonground.nu/
+  extraSecretNamesForEnvFrom:
+    - n8n-env
+
+existingEncryptionKeySecret: n8n-encryption
