@@ -5,6 +5,8 @@ service:
   type: ClusterIP
   port: 5678
 
+gracefulShutdownTimeout: 120
+
 strategy:
   type: Recreate
 
@@ -35,6 +37,22 @@ main:
     enabled: true
     size: 10Gi
     storageClass: default
+  livenessProbe:
+    httpGet:
+      path: /healthz
+      port: http
+    initialDelaySeconds: 20
+    periodSeconds: 10
+    timeoutSeconds: 2
+    failureThreshold: 6
+  readinessProbe:
+    httpGet:
+      path: /healthz/readiness
+      port: http
+    initialDelaySeconds: 10
+    periodSeconds: 5
+    timeoutSeconds: 2
+    failureThreshold: 6
   extraEnvVars:
     N8N_HOST: n8n.commonground.nu
     N8N_PROTOCOL: https
