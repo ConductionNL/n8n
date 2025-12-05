@@ -5,6 +5,9 @@ service:
   type: ClusterIP
   port: 5678
 
+strategy:
+  type: Recreate
+
 ingress:
   enabled: true
   className: nginx
@@ -45,5 +48,5 @@ externalPostgresql:
   host: n8n-postgres.n8n-db.svc
   port: 5432
   database: n8n
-  username: bjhu
+  username: n8n
   existingSecret: n8n-db-compat

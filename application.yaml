@@ -13,6 +13,8 @@ spec:
       releaseName: n8n
       # Keep this in sync with values.yaml (not referenced directly by Argo CD)
       values: |
+        strategy:
+          type: Recreate
         service:
           type: ClusterIP
           port: 5678
@@ -52,7 +54,7 @@ spec:
           host: n8n-postgres.n8n-db.svc
           port: 5432
           database: n8n
-          username: bjhu
+          username: n8n
           existingSecret: n8n-db-compat
   destination:
     server: https://kubernetes.default.svc
