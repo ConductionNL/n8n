@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://community-charts.github.io/helm-charts
     chart: n8n
-    targetRevision: "*"  # pin a version when desired
+    targetRevision: "1.16.10"  # pinned for stability
     helm:
       releaseName: n8n
       # Keep this in sync with values.yaml (not referenced directly by Argo CD)
@@ -45,7 +45,6 @@ spec:
             enabled: true
             size: 10Gi
             storageClass: default
-          extraEnvVarsSecret: n8n-db-password
           livenessProbe:
             httpGet:
               path: /healthz
@@ -75,7 +74,7 @@ spec:
           port: 5432
           database: n8n
           username: bjhu
-          existingSecret: n8n-db-password
+          existingSecret: n8n-db
   destination:
     server: https://kubernetes.default.svc
     namespace: n8n
