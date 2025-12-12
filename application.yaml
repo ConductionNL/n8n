@@ -74,7 +74,7 @@ spec:
           port: 5432
           database: n8n
           username: bjhu
-          existingSecret: n8n-db
+          existingSecret: n8n-db-password
   destination:
     server: https://kubernetes.default.svc
     namespace: n8n
