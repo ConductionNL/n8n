@@ -31,6 +31,7 @@ db:
     ssl:
       enabled: true
       rejectUnauthorized: false
+    connectionTimeout: 60000
 
 main:
   persistence:
@@ -59,6 +60,7 @@ main:
     WEBHOOK_URL: https://n8n.commonground.nu/
     DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED: "false"
     NODE_TLS_REJECT_UNAUTHORIZED: "0"
+    DB_POSTGRESDB_CONNECTION_TIMEOUT: "60000"
 
 existingEncryptionKeySecret: n8n-encryption
 

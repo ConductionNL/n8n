@@ -39,6 +39,7 @@ spec:
             ssl:
               enabled: true
               rejectUnauthorized: false
+            connectionTimeout: 60000
         main:
           persistence:
             enabled: true
@@ -66,13 +67,14 @@ spec:
             WEBHOOK_URL: https://n8n.commonground.nu/
             DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED: "false"
             NODE_TLS_REJECT_UNAUTHORIZED: "0"
+            DB_POSTGRESDB_CONNECTION_TIMEOUT: "60000"
         existingEncryptionKeySecret: n8n-encryption
         externalPostgresql:
           host: n8n-postgres.n8n-db.svc
           port: 5432
           database: n8n
-          username: n8n
-          existingSecret: n8n-db-compat
+          username: bjhu
+          existingSecret: n8n-db
   destination:
     server: https://kubernetes.default.svc
     namespace: n8n
