@@ -45,6 +45,7 @@ spec:
             enabled: true
             size: 10Gi
             storageClass: default
+          extraEnvVarsSecret: n8n-db-password
           livenessProbe:
             httpGet:
               path: /healthz
